@@ -1,0 +1,22 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:5.7
+        expose:
+            - "3306"
+        volumes:
+            - ./mysql-db:/var/lib/mysql
+        environment:
+            - MYSQL_DATABASE=django_nansoon
+            - MYSQL_ROOT_PASSWORD=123456
+        restart: always
+        container_name: nansoon_django_mysql
+    web:
+        build: .
+        depends_on:
+            - mysql
+        volumes:
+            - .:/www
+        ports:
+            - "8081:8000"
+        container_name: nansoon_django_web
